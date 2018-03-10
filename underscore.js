@@ -136,6 +136,25 @@
         return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
     };
 
+
     // COLLECTION FUNCTIONS
 
+
+    // 基石, 每一个实现, 也就是 forEach。 除了数组之外, 还处理原始对象。 对待所有稀疏的数组-喜欢, 如果他们是密集的。
+    _.each = _.forEach = function(obj, iteratee, context){
+        iteratee = optimizeCb(iteratee,context);
+        var i,length;
+        if(isArrayLike(obj)){
+            for(i = 0,length = obj.length; i < length; i++){
+                iteratee(obj[i], i, obj);
+            }
+        } else {
+            var keys = _.keys(obj);
+            for(i = 0, length = keys.length; i < length; i++){
+                iteratee(obj[keys[i]], keys[i], obj);
+            }
+        }
+        return obj;
+    };
+    
 })
