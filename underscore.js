@@ -168,6 +168,61 @@
     
 
     
+        // COLLECTION FUNCTIONS  集合函数
+    
+    // The cornerstone,
+    // an each implementation, aka forEach. 
+    // Handles raw objects in addition to array-likes. 
+    // Treats all sparse array-likes as if they were dense.
+    // 基础
+    // 一个 each 实现 又叫做forEach
+    // 除了数组以为还可以处理原始对象
+    // 处理所有稀疏数组就像他们是稠密一样(翻译有问题
+    
+    /**
+     * _.each()
+     * // array
+     * _.each([1,2,3,4,5], alert)
+     * (5) [1, 2, 3, 4, 5]
+     * 
+     * // object 需要依赖 keys keys依赖isObject
+     * _.each({one: 1, two: 2, three: 3}, alert);
+     * {one: 1, two: 2, three: 3}
+     * 
+     * // 注释keys isObject 遍历obj暂不支持
+     */
+    _.each = _.forEach = function(obj, iteratee, context) {
+        iteratee = optimizeCb(iteratee, context)
+        var i, length
+        if (isArrayLike(obj)) {
+            for (i = 0,length = obj.length; i < length; i++){
+                iteratee(obj[i], i, obj)
+            }
+        } else {
+            var keys = _.keys(obj)
+            for (i = 0, length = keys.length; i < length; i++){
+                iteratee(obj[keys[i]], keys[i], obj)
+            }
+        }
+        return obj
+    }
+    
+    // _.keys = function(obj) {
+    //     if (!_.isObject(obj)) return [];
+    //     if (nativeKeys) return nativeKeys(obj);
+    //     var keys = [];
+    //     for (var key in obj) if (_.has(obj, key)) keys.push(key);
+    
+     
+    //     if (hasEnumBug) collectNonEnumProps(obj, keys);
+    //     return keys;
+    //   };
+    
+    //   _.isObject = function(obj) {
+    //     var type = typeof obj;
+    //     return type === 'function' || type === 'object' && !!obj;
+    //   };
+    
     
     
     
